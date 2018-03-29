@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<%- include("./header.ejs") %>
+<body>
+<%- include("./headerBar.ejs") %>
+<section class="billList-Wrapper">
+    <fieldset class="layui-elem-field">
+        <legend>总览</legend>
+        <div class="layui-field-box">
+            总计：<%= sum %> 人均：<%= per%>
+        </div>
+    </fieldset>
+
+    <table class="layui-table" lay-skin="line">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>时间</th>
+            <th>类型</th>
+            <th>花费</th>
+            <th>成员</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(let i = 0; i < billList.length; i ++) { %>
+        <tr>
+            <td><%= billList[i].time %></td>
+            <td><%= billList[i].type %></td>
+            <td><%= billList[i].money %></td>
+            <td><%= billList[i].username %></td>
+            <td><%= billList[i].desc %></td>
+        </tr>
+        <%}%>
+        </tbody>
+    </table>
+</section>
+</body>
+<%- include("./footer.ejs") %>
+<script>
+    let index = new Index();
+</script>
+</html>

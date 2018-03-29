@@ -1,0 +1,61 @@
+/*index*/
+*{
+  box-sizing: border-box;
+}
+html, body {
+  height:100%;
+}
+
+.m-t-20 {
+  margin-top:20px;
+}
+
+.m-a {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.tl-c {
+  text-align: center;
+}
+
+.color-fff {
+  color:#fff;
+}
+
+.pure {
+  background: transparent;
+  border:1px solid transparent
+}
+
+.main {
+  width:100%;
+  height:100%;
+  position: relative;
+  background:url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522232025635&di=5af5ce321156bfe738995c4465ac7229&imgtype=0&src=http%3A%2F%2Fb.zol-img.com.cn%2Fdesk%2Fbizhi%2Fstart%2F2%2F1356658398776.jpg") no-repeat center center;
+  background-size:cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  width:300px;
+  height:360px;
+}
+
+.login-btn {
+  width:200px;
+}
+
+/*addBill*/
+
+.addBill-form {
+  max-width:400px;
+  margin:100px auto;
+}
+
+.billList-Wrapper {
+  max-width:600px;
+  margin:50px auto;
+}

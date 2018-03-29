@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<%- include("./header.ejs") %>
+<body>
+<%- include("./headerBar.ejs") %>
+<section>
+    <form action="" class="layui-form addBill-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="time" id="time" placeholder="" required  lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择框</label>
+            <div class="layui-input-block">
+                <select name="type" lay-verify="required">
+                    <option value=""></option>
+                    <% for(var i=0;i < options.length;i++){%>
+                    <option value="<%= options[i].key %>"><%= options[i].value %></option>
+                    <%}%>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">金额</label>
+            <div class="layui-input-block">
+                <input type="number" name="money" required  lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+<%- include("./footer.ejs") %>
+<script>
+    let addBill = new AddBill();
+</script>
+</html>

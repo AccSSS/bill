@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<%- include("./header.ejs") %>
+<body>
+<%- include("./headerBar.ejs") %>
+<section class="billList-Wrapper">
+    <fieldset class="layui-elem-field">
+        <legend>个人明细</legend>
+        <div class="layui-field-box">
+            <table class="layui-table" lay-skin="line">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>支出</th>
+                    <th>人均</th>
+                    <th>结算</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(let i = 0; i < perList.length; i ++) { %>
+                <tr>
+                    <td><%= perList[i].username %></td>
+                    <td><%= perList[i].perpay %></td>
+                    <td><%= perList[i].per %></td>
+                    <td><%= perList[i].perpay - perList[i].per %></td>
+                </tr>
+                <%}%>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</section>
+</body>
+<%- include("./footer.ejs") %>
+<script>
+    let index = new Index();
+</script>
+</html>

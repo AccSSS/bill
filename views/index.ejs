@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<%- include("./header.ejs") %>
+<body>
+<div class="main">
+    <div class="panel panel-info login animated fadeInDown" style="background: transparent">
+        <div class="panel-body">
+            <div>
+                <label for="username" class="color-fff">用户名</label>
+                <input type="text" class="form-control pure" id="username" placeholder="Username">
+            </div>
+            <div class="m-t-20">
+                <label for="password" class="color-fff">密码</label>
+                <input type="password" class="form-control pure" id="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="tl-c m-t-20">
+            <button type="button" class="btn btn-info login-btn">登录</button>
+        </div>
+    </div>
+</div>
+</body>
+<%- include("./footer.ejs") %>
+<script>
+    let index = new Index();
+</script>
+</html>
