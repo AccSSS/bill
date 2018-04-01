@@ -163,4 +163,13 @@ router.get('/per', async (ctx, next) => {
     })
 })
 
+router.get('/updateBillStatus', async (ctx, next) => {
+    await model.updateBillStatus().then( result => {
+        ctx.body = response.success('结算成功')
+    }).catch(err => {
+        ctx.body = response.error(response.code.updateBillFail, '结算失败')
+        console.log(err)
+    })
+})
+
 module.exports = router

@@ -7,7 +7,8 @@ class Res {
         this.code = {
             success: '0000',
             loginFail: '0001',
-            addBillFail: '0002'
+            addBillFail: '0002',
+            updateBillFail: '0003'
         }
     }
 
