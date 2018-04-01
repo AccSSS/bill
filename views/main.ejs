@@ -4,17 +4,18 @@
 <body>
 <%- include("./headerBar.ejs") %>
 <section class="billList-Wrapper">
-    <fieldset class="layui-elem-field">
-        <legend>总览</legend>
-        <div class="layui-field-box">
-            总计：<%= sum %> 人均：<%= per%>
-        </div>
-    </fieldset>
-
+    <h3 style="border-bottom:1px solid #ccc;padding-bottom:10px;">
+        总览
+    </h3>
+    <div class="layui-field-box">
+        总计：<%= sum %> 人均：<%= per %>
+    </div>
     <table class="layui-table" lay-skin="line">
         <colgroup>
-            <col width="150">
-            <col width="200">
+            <col>
+            <col>
+            <col>
+            <col>
             <col>
         </colgroup>
         <thead>
@@ -26,8 +27,9 @@
             <th>备注</th>
         </tr>
         </thead>
+        <% if(billList.length > 0) { %>
         <tbody>
-        <% for(let i = 0; i < billList.length; i ++) { %>
+        <% for(let i = 0; i < billList.length; i++) { %>
         <tr>
             <td><%= billList[i].time %></td>
             <td><%= billList[i].type %></td>
@@ -35,8 +37,14 @@
             <td><%= billList[i].username %></td>
             <td><%= billList[i].desc %></td>
         </tr>
-        <%}%>
+        <% } %>
         </tbody>
+
+        <% } else { %>
+        <tbody>
+        </tbody>
+        <% } %>
+
     </table>
 </section>
 </body>
