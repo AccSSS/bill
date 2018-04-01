@@ -43,7 +43,7 @@ class AddBill extends Main {
         super()
         layui.use('laydate', function() {
             const date = new Date();
-            const defaultTime = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+            const defaultTime = date.getFullYear() + '-' + ((date.getMonth()+1) > 9 ? (date.getMonth()+1) : '0' + (date.getMonth()+1)) + '-' + (date.getDate() > 9 ? date.getDate() : '0' + date.getDate())
             let laydate = layui.laydate;
             laydate.render({
                 elem: '#time',
