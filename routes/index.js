@@ -172,4 +172,11 @@ router.get('/updateBillStatus', async (ctx, next) => {
     })
 })
 
+router.get('/face', async (ctx, next) => {
+
+    await ctx.render('faceDemo', {
+        title: 'test'
+    })
+})
+
 module.exports = router
