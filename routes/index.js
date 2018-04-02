@@ -164,6 +164,22 @@ router.get('/per', async (ctx, next) => {
 })
 
 router.get('/updateBillStatus', async (ctx, next) => {
+    let power = 0;
+    await model.findUserDataById(ctx.session.id)
+        .then(result => {
+            console.log(result);
+            if(result[0].admin.toString() === '1') {
+                power = 1;
+            } else {
+                ctx.body = response.error(response.code.powerFail, '权限不足');
+            }
+
+        }).catch(err => {
+            console.log(err)
+        })
+
+    if (!power) return;
+
     await model.updateBillStatus().then( result => {
         ctx.body = response.success('结算成功')
     }).catch(err => {

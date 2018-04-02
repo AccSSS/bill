@@ -8,7 +8,8 @@ class Res {
             success: '0000',
             loginFail: '0001',
             addBillFail: '0002',
-            updateBillFail: '0003'
+            updateBillFail: '0003',
+            powerFail: '0004'
         }
     }
 

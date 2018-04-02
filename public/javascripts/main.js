@@ -97,6 +97,8 @@ class Per extends Main {
                                 location.href = '/main'
                             }, 1000)
                         }
+
+                        layer.closeAll();
                         layer.msg(res.msg);
                     })
                 }
