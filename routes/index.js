@@ -33,8 +33,8 @@ router.get('/login', async (ctx, next) => {
             if (res[0] && username === res[0]['username'] && password === res[0]['password']) {
                 ctx.session.user = res[0]['username']
                 ctx.session.id = res[0]['id']
-                console.log('ctx.session.id', ctx.session.id)
-                console.log('session', ctx.session)
+                ctx.session.groupId = res[0]['group_id']
+
                 body = response.success('登录成功')
             } else {
                 body = response.error(response.code.loginFail, '用户名或密码错误');
@@ -58,8 +58,9 @@ router.get('/main', async (ctx, next) => {
 
     let billList = [],
         sum = '',
-        per = ''
-    await model.findAllBill().then( result => {
+        per = '',
+        groupId = ctx.session.groupId
+    await model.findAllBill(groupId).then( result => {
         billList = result;
     })
 
@@ -73,11 +74,11 @@ router.get('/main', async (ctx, next) => {
         }
     }
     
-    await model.sumBill().then( result => {
+    await model.sumBill(groupId).then( result => {
         sum = Number(result[0]['sum(money)'])
     })
 
-    await model.userTotal().then ( result => {
+    await model.userTotal(groupId).then ( result => {
         per = sum / result[0]['count(*)']
     })
 
@@ -109,6 +110,7 @@ router.get('/addBillAjax', async (ctx, next) => {
         query.userid = ctx.session.id
         query.username = ctx.session.user
         query.desc = ctx.query.desc ? ctx.query.desc : ''
+        query.group_id = ctx.session.groupId
     }
 
     await model.insertBill(query).then(result => {
@@ -123,20 +125,21 @@ router.get('/addBillAjax', async (ctx, next) => {
 router.get('/per', async (ctx, next) => {
     await checkLogin(ctx);
 
-    let sum = '', per = '',users = [], bills = [], perList = []
-    await model.sumBill().then( result => {
+    let sum = '', per = '',users = [], bills = [], perList = [], groupId = ctx.session.groupId;
+
+    await model.sumBill(groupId).then( result => {
         sum = Number(result[0]['sum(money)'])
     })
 
-    await model.userTotal().then ( result => {
+    await model.userTotal(groupId).then ( result => {
         per = sum / result[0]['count(*)']
     })
 
-    await model.findAllUser().then ( result => {
+    await model.findAllUser(groupId).then ( result => {
         users = result
     })
 
-    await model.sumBillGroupByUser().then ( result => {
+    await model.sumBillGroupByUser(groupId).then ( result => {
         bills = result
     })
 
@@ -164,7 +167,7 @@ router.get('/per', async (ctx, next) => {
 })
 
 router.get('/updateBillStatus', async (ctx, next) => {
-    let power = 0;
+    let power = 0, groupId = ctx.session.groupId;
     await model.findUserDataById(ctx.session.id)
         .then(result => {
             console.log(result);
@@ -180,7 +183,7 @@ router.get('/updateBillStatus', async (ctx, next) => {
 
     if (!power) return;
 
-    await model.updateBillStatus().then( result => {
+    await model.updateBillStatus(groupId).then( result => {
         ctx.body = response.success('结算成功')
     }).catch(err => {
         ctx.body = response.error(response.code.updateBillFail, '结算失败')
