@@ -7,6 +7,7 @@
     <h3 style="border-bottom:1px solid #ccc;padding-bottom:10px;">
         总览
     </h3>
+    <% if(billList.length > 0) { %>
     <div class="layui-field-box">
         总计：<%= sum %> 人均：<%= per %>
     </div>
@@ -27,7 +28,6 @@
             <th>备注</th>
         </tr>
         </thead>
-        <% if(billList.length > 0) { %>
         <tbody>
         <% for(let i = 0; i < billList.length; i++) { %>
         <tr>
@@ -39,13 +39,12 @@
         </tr>
         <% } %>
         </tbody>
-
-        <% } else { %>
-        <tbody>
-        </tbody>
-        <% } %>
-
     </table>
+    <% } else { %>
+    <div>
+        暂无账单记录
+    </div>
+    <% } %>
 </section>
 </body>
 <%- include("./footer.ejs") %>

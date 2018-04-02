@@ -2,20 +2,31 @@
 <html>
 <%- include("./header.ejs") %>
 <body>
+<header>
+    <ul class="layui-nav layui-bg-cyan" style="height:50px;margin: 0;line-height: 50px;">
+        <div>
+            FORKROAD PRODUCTION
+        </div>
+    </ul>
+</header>
 <div class="main">
-    <div class="panel panel-info login animated fadeInDown" style="background: transparent">
+    <div class="panel panel-info login animated fadeInDown" style="border-color: #fff;box-shadow: 1px 1px 2px #ccc;">
         <div class="panel-body">
+            <div class="title">
+                    <h3>登录</h3>
+            </div>
             <div>
-                <label for="username" class="color-fff">用户名</label>
-                <input type="text" class="form-control pure" id="username" placeholder="Username">
+                <input type="text" class="form-control pure" id="username" placeholder="用户名">
             </div>
             <div class="m-t-20">
-                <label for="password" class="color-fff">密码</label>
-                <input type="password" class="form-control pure" id="password" placeholder="Password">
+                <input type="password" class="form-control pure" id="password" placeholder="密码">
             </div>
-        </div>
-        <div class="tl-c m-t-20">
-            <button type="button" class="btn btn-info login-btn">登录</button>
+            <div class="login-tips m-t-10">
+                登录遇到问题？请联系管理员
+            </div>
+            <div class="tl-c m-t-10">
+                <button type="button" class="login-btn">登录</button>
+            </div>
         </div>
     </div>
 </div>

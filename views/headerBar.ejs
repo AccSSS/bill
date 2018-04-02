@@ -1,11 +1,22 @@
 <header>
-    <ul class="layui-nav layui-bg-cyan" style="overflow: hidden">
-        <div style="float: right">
+    <style>
+        .header-bar > div {
+            float: right;
+        }
+
+        .header-bar .layui-nav-item:first-of-type {
+            float: left;
+        }
+    </style>
+    <ul class="layui-nav layui-bg-cyan header-bar" style="overflow: hidden">
+        <li class="layui-nav-item sign"><a href="main">FORKROAD PRODUCTION </a></li>
+        <div>
             <li class="layui-nav-item"><%= user %></li>
             <li class="layui-nav-item"><a href="main">总览</a></li>
             <li class="layui-nav-item"><a href="per">结算</a></li>
             <li class="layui-nav-item"><a href="addBill">新增</a></li>
             <li class="layui-nav-item"><a href="signout">退出</a></li>
         </div>
+
     </ul>
 </header>

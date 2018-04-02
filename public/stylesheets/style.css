@@ -1,9 +1,17 @@
 /*index*/
+:root {
+  --color:orange;
+}
 *{
   box-sizing: border-box;
 }
 html, body {
   height:100%;
+  font-weight: 100;
+}
+
+.m-t-10 {
+  margin-top:10px;
 }
 
 .m-t-20 {
@@ -22,21 +30,37 @@ html, body {
 .color-fff {
   color:#fff;
 }
+/*header-bar*/
 
-.pure {
-  background: transparent;
-  border:1px solid transparent
+@media screen and (max-width: 600px) {
+  .sign {
+    display: none!important;
+  }
 }
 
+
+/*login*/
 .main {
   width:100%;
   height:100%;
   position: relative;
-  background:url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522232025635&di=5af5ce321156bfe738995c4465ac7229&imgtype=0&src=http%3A%2F%2Fb.zol-img.com.cn%2Fdesk%2Fbizhi%2Fstart%2F2%2F1356658398776.jpg") no-repeat center center;
   background-size:cover;
+  background:#f2f2f2;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.main .title {
+  padding:50px 0 20px;
+  text-align: center;
+  color:var(--color);
+}
+
+.main .title h3 {
+  display: inline;
+  padding-bottom:5px;
+  border-bottom:1px solid var(--color);
 }
 
 .login {
@@ -44,8 +68,20 @@ html, body {
   height:360px;
 }
 
+.login-tips {
+  text-align: right;
+  color:#ccc;
+  font-size:12px;
+}
+
 .login-btn {
-  width:200px;
+  width: 100%;
+  border:none;
+  border-radius: 10px;
+  color:#fff;
+  height:30px;
+  line-height: 30px;
+  background:dodgerblue;
 }
 
 /*addBill*/
@@ -53,9 +89,11 @@ html, body {
 .addBill-form {
   max-width:400px;
   margin:100px auto;
+  padding: 5px
 }
 
 .billList-Wrapper {
   max-width:600px;
   margin:50px auto;
+  padding: 5px
 }
