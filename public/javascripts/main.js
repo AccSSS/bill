@@ -78,6 +78,39 @@ class Per extends Main {
     constructor() {
         super()
 
+        function convert2canvas() {
+
+            var shareContent = document.querySelector("#capture");
+            var width = $(window).width();
+            var height = $(window).height();
+            var canvas = document.createElement("canvas");
+            var scale = 2;
+
+            canvas.width = width * scale;
+            canvas.height = height * scale;
+            canvas.getContext("2d").scale(scale, scale);
+
+            var opts = {
+                scale: scale,
+                canvas: canvas,
+                logging: true,
+                width: width,
+                height: height
+            };
+            html2canvas(shareContent, opts).then(function (canvas) {
+                var context = canvas.getContext('2d');
+
+                //var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+
+                Canvas2Image.saveAsImage(canvas, canvas.width, canvas.height);
+                /*document.body.appendChild(img);
+                 $(img).css({
+                 "width": canvas.width / 2 + "px",
+                 "height": canvas.height / 2 + "px",
+                 })*/
+            });
+        }
+
         $('.open-next').bind('click', function () {
             layer.open({
                 type: 1,
@@ -96,6 +129,8 @@ class Per extends Main {
                             setTimeout(function () {
                                 location.href = '/main'
                             }, 1000)
+
+                            convert2canvas()
                         }
 
                         layer.closeAll();
