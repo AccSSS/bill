@@ -29,7 +29,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:AccSSS/bill.git',
       path : '/home/acc/www/',
-      'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --env production'
+      'post-deploy' : 'git pull && npm install && pm2 startOrRestart ecosystem.config.js --env production'
     },
     dev : {
       user : 'node',
