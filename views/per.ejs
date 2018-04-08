@@ -30,7 +30,7 @@
                     <td><%= perList[i].username %></td>
                     <td><%= perList[i].perpay %></td>
                     <td><%= perList[i].per %></td>
-                    <td><%= perList[i].perpay - perList[i].per %></td>
+                    <td><%= Math.round((perList[i].perpay - perList[i].per) * 100) / 100 %></td>
                 </tr>
                 <% } %>
                 </tbody>
