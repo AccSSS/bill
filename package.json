@@ -8,7 +8,6 @@
     "prd": "pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dep-setup": "pm2 deploy ecosystem.config.js production setup",
-    /*"dep-update": "pm2 deploy ecosystem.config.js production update"*/
     "dep-update": "pm2 deploy ecosystem.config.js production"
   },
   "dependencies": {
