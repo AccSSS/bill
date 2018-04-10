@@ -79,7 +79,7 @@ router.get('/main', async (ctx, next) => {
     })
 
     await model.userTotal(groupId).then ( result => {
-        per = sum / result[0]['count(*)']
+        per = Math.round(sum / result[0]['count(*)'] * 100) / 100
     })
 
 
@@ -132,7 +132,7 @@ router.get('/per', async (ctx, next) => {
     })
 
     await model.userTotal(groupId).then ( result => {
-        per = sum / result[0]['count(*)']
+        per = Math.round(sum / result[0]['count(*)'] * 100) / 100
     })
 
     await model.findAllUser(groupId).then ( result => {
