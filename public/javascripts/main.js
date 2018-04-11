@@ -3,15 +3,67 @@
  */
 
 
-class Main {
+class Base {
     constructor() {
         layui.use('layer', function () {
             window.layer = layui.layer;
         })
     }
+
+    getRequest() {
+        let url = location.search; //获取url中"?"符后的字串
+        let theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            let str = url.substr(1);
+            let strs = str.split("&");
+            for (let i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
 }
 
-class Index extends Main {
+class Main extends Base {
+    constructor() {
+        super();
+
+        let dels = $('.del');
+
+        dels.on('click', function () {
+
+            let id = $(this).data().billid
+
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: false,
+                area: '300px;',
+                shade: 0.8,
+                id: 'LAY_layuipro',
+                btn: ['确定', '取消'],
+                btnAlign: 'c',
+                moveType: 1,
+                content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定删除此条记录？</div>',
+                yes: function () {
+                    $.get('/delBillLog', {id: id}, function (res) {
+                        if (res.code === '0000') {
+                            setTimeout(function () {
+                                window.location.reload()
+                            }, 1000)
+                        }
+
+                        layer.closeAll();
+                        layer.msg(res.msg);
+                    })
+                }
+            });
+        })
+    }
+}
+
+class Index extends Base {
     constructor() {
         super();
 
@@ -38,11 +90,72 @@ class Index extends Main {
     }
 }
 
-class AddBill extends Main {
+class AddBill extends Base {
     constructor() {
         super()
+
+        const billId = this.getRequest().id;
+        const _this = this;
+        if (billId) {
+            $.get('/getBillLogInfo', {id: billId}, function (res) {
+                if (res.code === '0000') {
+                    let data = res.msg;
+                    _this.setTime(data.time);
+                    _this.setFormDefault(data)
+                }
+            })
+        } else {
+            this.setTime()
+        }
+
+        layui.use('form', function () {
+            let form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                console.log(data.field)
+
+                let params = {
+                    id: billId,
+                    money : data.field.money,
+                    time : data.field.time,
+                    type : data.field.type,
+                    descr : data.field.descr,
+                }
+                if(billId) {
+                    $.get('/updateBillLogInfo', params, function (res) {
+                        if (res.code === '0000') {
+                            layer.msg(res.msg);
+                            setTimeout(function () {
+                                location.href = '/main'
+                            }, 1000)
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    })
+                } else {
+                    $.get('/addBillAjax', data.field, function (res) {
+                        if (res.code === '0000') {
+                            layer.msg(res.msg);
+                            setTimeout(function () {
+                                location.href = '/main'
+                            }, 1000)
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    })
+                }
+
+                return false;
+            });
+        });
+
+
+    }
+
+    setTime (time) {
         layui.use('laydate', function () {
-            const date = new Date();
+            const date = time ? new Date(time) : new Date();
             const defaultTime = date.getFullYear() + '-' + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + '-' + (date.getDate() > 9 ? date.getDate() : '0' + date.getDate())
             let laydate = layui.laydate;
             laydate.render({
@@ -50,31 +163,23 @@ class AddBill extends Main {
                 value: defaultTime
             });
         })
+    }
 
-        layui.use('form', function () {
-            let form = layui.form;
+    setFormDefault (data) {
+        const time = $('input[name="time"]');
+        const money = $('input[name="money"]');
+        const descr = $('textarea[name="descr"]');
+        const type = $('select[name="type"]');
+        const select = $('.layui-edge').prev();
 
-            //监听提交
-            form.on('submit(formDemo)', function (data) {
-                $.get('/addBillAjax', data.field, function (res) {
-                    if (res.code === '0000') {
-                        layer.msg(res.msg);
-                        setTimeout(function () {
-                            location.href = '/main'
-                        }, 1000)
-                    } else {
-                        layer.msg(res.msg);
-                    }
-                })
-
-                return false;
-            });
-        });
-
+        money.val(data.money);
+        type.val(Number(data.type));
+        select.val(data.typeName);
+        descr.val(data.descr);
     }
 }
 
-class Per extends Main {
+class Per extends Base {
     constructor() {
         super()
 
@@ -125,7 +230,7 @@ class Per extends Main {
                 content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确定开启下个月的记录？</div>',
                 yes: function () {
                     $.get('/updateBillStatus', {}, function (res) {
-                        if(res.code === '0000') {
+                        if (res.code === '0000') {
                             setTimeout(function () {
                                 location.href = '/main'
                             }, 1000)

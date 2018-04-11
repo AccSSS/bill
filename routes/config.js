@@ -9,7 +9,11 @@ class Res {
             loginFail: '0001',
             addBillFail: '0002',
             updateBillFail: '0003',
-            powerFail: '0004'
+            powerFail: '0004',
+            paramsMiss: '0005',
+            delFail: '0006',
+            getLogInfoErr: '0007',
+            updateBillInfoFail: '0008'
         }
     }
 

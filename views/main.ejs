@@ -26,6 +26,7 @@
             <th>花费</th>
             <th>成员</th>
             <th>备注</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +36,13 @@
             <td><%= billList[i].type %></td>
             <td><%= billList[i].money %></td>
             <td><%= billList[i].username %></td>
-            <td><%= billList[i].desc %></td>
+            <td><%= billList[i].descr %></td>
+            <td>
+                <% if(billList[i].handle) { %>
+                <a href="javascript:none;" class="del" data-billid = <%= billList[i].id %>>删除</a>
+                <a href="addBill?edit=true&id=<%= billList[i].id %>">修改</a>
+                <% } %>
+            </td>
         </tr>
         <% } %>
         </tbody>
@@ -49,6 +56,6 @@
 </body>
 <%- include("./footer.ejs") %>
 <script>
-    let index = new Index();
+    let main = new Main();
 </script>
 </html>

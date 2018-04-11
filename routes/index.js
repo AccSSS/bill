@@ -47,7 +47,7 @@ router.get('/login', async (ctx, next) => {
     ctx.body = body;
 })
 
-router.get('/signout', async(ctx, next) => {
+router.get('/signout', async (ctx, next) => {
     ctx.session = null;
     ctx.redirect('/index');
 
@@ -60,25 +60,29 @@ router.get('/main', async (ctx, next) => {
         sum = '',
         per = '',
         groupId = ctx.session.groupId
-    await model.findAllBill(groupId).then( result => {
+    await model.findAllBill(groupId).then(result => {
         billList = result;
     })
 
-    for(let i = 0; i < billList.length; i ++) {
+    for (let i = 0; i < billList.length; i++) {
         billList[i].time = moment(billList[i].time).format('YYYY-MM-DD')
 
-        for(let j = 0; j < options.length; j ++) {
-            if(options[j].key.toString() === billList[i].type) {
+        for (let j = 0; j < options.length; j++) {
+            if (options[j].key.toString() === billList[i].type) {
                 billList[i].type = options[j].value
             }
         }
+
+        if (billList[i].userid === ctx.session.id) {
+            billList[i].handle = true;
+        }
     }
-    
-    await model.sumBill(groupId).then( result => {
+
+    await model.sumBill(groupId).then(result => {
         sum = Number(result[0]['sum(money)'])
     })
 
-    await model.userTotal(groupId).then ( result => {
+    await model.userTotal(groupId).then(result => {
         per = Math.round(sum / result[0]['count(*)'] * 100) / 100
     })
 
@@ -86,7 +90,7 @@ router.get('/main', async (ctx, next) => {
     await ctx.render('main', {
         title: '总览',
         user: ctx.session.user,
-        billList :  billList,
+        billList: billList,
         sum: sum,
         per: per
     })
@@ -109,7 +113,7 @@ router.get('/addBillAjax', async (ctx, next) => {
         query.money = ctx.query.money
         query.userid = ctx.session.id
         query.username = ctx.session.user
-        query.desc = ctx.query.desc ? ctx.query.desc : ''
+        query.descr = ctx.query.descr ? ctx.query.descr : ''
         query.group_id = ctx.session.groupId
     }
 
@@ -125,33 +129,33 @@ router.get('/addBillAjax', async (ctx, next) => {
 router.get('/per', async (ctx, next) => {
     await checkLogin(ctx);
 
-    let sum = '', per = '',users = [], bills = [], perList = [], groupId = ctx.session.groupId;
+    let sum = '', per = '', users = [], bills = [], perList = [], groupId = ctx.session.groupId;
 
-    await model.sumBill(groupId).then( result => {
+    await model.sumBill(groupId).then(result => {
         sum = Number(result[0]['sum(money)'])
     })
 
-    await model.userTotal(groupId).then ( result => {
+    await model.userTotal(groupId).then(result => {
         per = Math.round(sum / result[0]['count(*)'] * 100) / 100
     })
 
-    await model.findAllUser(groupId).then ( result => {
+    await model.findAllUser(groupId).then(result => {
         users = result
     })
 
-    await model.sumBillGroupByUser(groupId).then ( result => {
+    await model.sumBillGroupByUser(groupId).then(result => {
         bills = result
     })
 
-    for (let i = 0; i < users.length; i ++) {
+    for (let i = 0; i < users.length; i++) {
         let perItem = {
             username: users[i].username,
-            per : per,
+            per: per,
             perpay: 0
         }
 
-        for (let j = 0; j < bills.length; j ++) {
-            if(users[i].id === bills[j].userid) {
+        for (let j = 0; j < bills.length; j++) {
+            if (users[i].id === bills[j].userid) {
                 perItem.perpay = bills[j].perpay
             }
         }
@@ -171,7 +175,7 @@ router.get('/updateBillStatus', async (ctx, next) => {
     await model.findUserDataById(ctx.session.id)
         .then(result => {
             console.log(result);
-            if(result[0].admin.toString() === '1') {
+            if (result[0].admin.toString() === '1') {
                 power = 1;
             } else {
                 ctx.body = response.error(response.code.powerFail, '权限不足');
@@ -183,10 +187,78 @@ router.get('/updateBillStatus', async (ctx, next) => {
 
     if (!power) return;
 
-    await model.updateBillStatus(groupId).then( result => {
+    await model.updateBillStatus(groupId).then(result => {
         ctx.body = response.success('结算成功')
     }).catch(err => {
         ctx.body = response.error(response.code.updateBillFail, '结算失败')
+        console.log(err)
+    })
+})
+
+router.get('/delBillLog', async (ctx, next) => {
+    if (!ctx.query.id) {
+        ctx.body = response.error(response.code.paramsMiss, '参数缺失')
+        return;
+    }
+
+    let id = ctx.query.id;
+
+    await model.delBillLog(id).then(result => {
+        ctx.body = response.success('删除成功')
+    }).catch(err => {
+        ctx.body = response.error(response.code.delFail, '删除失败')
+        console.log(err)
+    })
+})
+
+
+router.get('/getBillLogInfo', async (ctx, next) => {
+
+    if (!ctx.query.id) {
+        ctx.body = response.error(response.code.paramsMiss, '参数缺失')
+        return;
+    }
+
+    let id = ctx.query.id;
+
+    await model.getBillLogInfo(id).then(result => {
+        let res = result;
+        if (res[0]) {
+
+            for (let j = 0; j < options.length; j++) {
+                if (options[j].key.toString() === res[0].type) {
+                    res[0].typeName = options[j].value
+                }
+            }
+
+            ctx.body = response.success(res[0])
+
+        }
+    }).catch(err => {
+        ctx.body = response.error(response.code.getLogInfoErr, '获取记录失败');
+        console.log(err)
+    })
+})
+
+router.get('/updateBillLogInfo', async (ctx, next) => {
+
+    if (!ctx.query.id) {
+        ctx.body = response.error(response.code.paramsMiss, '参数缺失');
+        return;
+    }
+
+    let id = ctx.query.id;
+    let data = {
+        money: ctx.query.money,
+        time: ctx.query.time,
+        type: ctx.query.type,
+        descr: ctx.query.descr,
+    }
+    console.log(ctx.query);
+    await model.updateBillLogInfo(id, data).then(result => {
+        ctx.body = response.success('更新成功')
+    }).catch(err => {
+        ctx.body = response.error(response.code.updateBillInfoFail, '更新记录失败');
         console.log(err)
     })
 })
