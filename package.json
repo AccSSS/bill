@@ -29,6 +29,8 @@
     "pm2": "^2.10.2"
   },
   "devDependencies": {
+    "eslint": "^3.10.1",
+    "eslint-config-google": "^0.9.1",
     "nodemon": "^1.8.1"
   }
 }

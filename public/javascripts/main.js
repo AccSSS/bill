@@ -2,38 +2,53 @@
  * Created by acc on 2018/3/28.
  */
 
-
+/**
+ * 基础操作类
+ */
 class Base {
+    /**
+     * 绑定layer
+     */
     constructor() {
-        layui.use('layer', function () {
+        layui.use('layer', function() {
             window.layer = layui.layer;
-        })
+        });
     }
 
+    /**
+     * 获取urlseach参数
+     * @return {Object}
+     */
     getRequest() {
-        let url = location.search; //获取url中"?"符后的字串
-        let theRequest = new Object();
-        if (url.indexOf("?") != -1) {
+        let url = location.search;
+        let theRequest = {};
+        if (url.indexOf("?") !== -1) {
             let str = url.substr(1);
             let strs = str.split("&");
             for (let i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                let value = unescape(strs[i].split("=")[1]);
+                theRequest[strs[i].split("=")[0]] = value;
             }
         }
         return theRequest;
     }
-
 }
 
+/**
+ * 操作dom的主要方法类
+ */
 class Main extends Base {
+    /**
+     * 构造函数
+     */
     constructor() {
         super();
 
+        let $ = window.$;
         let dels = $('.del');
 
-        dels.on('click', function () {
-
-            let id = $(this).data().billid
+        dels.on('click', function() {
+            let id = $(this).data().billid;
 
             layer.open({
                 type: 1,

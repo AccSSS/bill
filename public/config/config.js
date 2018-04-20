@@ -3,22 +3,22 @@
  */
 const logType = [{
     value: '其他',
-    key: 0
-},{
+    key: 0,
+}, {
     value: '电费',
-    key: 1
-},{
+    key: 1,
+}, {
     value: '水费',
-    key: 2
-},{
+    key: 2,
+}, {
     value: '燃气费',
-    key: 3
-},{
+    key: 3,
+}, {
     value: '餐饮',
-    key: 4
-},{
+    key: 4,
+}, {
     value: '房租',
-    key: 5
+    key: 5,
 }];
 
 module.exports = logType;
