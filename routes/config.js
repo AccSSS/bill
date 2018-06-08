@@ -4,11 +4,11 @@
 
 /**
  * 响应
-*/
+ */
 class Res {
     /**
      * 构造
-    */
+     */
     constructor() {
         this.code = {
             success: '0000',
@@ -20,6 +20,7 @@ class Res {
             delFail: '0006',
             getLogInfoErr: '0007',
             updateBillInfoFail: '0008',
+            loginOutTime: '0009'
         };
     }
 

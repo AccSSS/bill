@@ -1,7 +1,9 @@
 /**
  * Created by acc on 2018/3/28.
  */
-module.exports ={
+const response = require('../routes/config');
+
+module.exports = {
     // 已经登录了
     checkNotLogin: (ctx) => {
         if (ctx.session && ctx.session.user) {
@@ -14,6 +16,13 @@ module.exports ={
     checkLogin: (ctx) => {
         if (!ctx.session || !ctx.session.user) {
             ctx.redirect('/index');
+            return false;
+        }
+        return true;
+    },
+
+    apiCheckLogin: (ctx) => {
+        if (!ctx.session || !ctx.session.user) {
             return false;
         }
         return true;
