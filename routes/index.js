@@ -7,21 +7,21 @@ const checkLogin = require('../middlewares/check.js').checkLogin;
 const options = require('../public/config/config');
 
 
-router.get('/', async (ctx, next) => {
+router.get('/', async(ctx, next) => {
     await checkNotLogin(ctx);
     await ctx.render('index', {
         title: 'index',
     });
 });
 
-router.get('/index', async (ctx, next) => {
+router.get('/index', async(ctx, next) => {
     await checkNotLogin(ctx);
     await ctx.render('index', {
         title: 'index',
     });
 });
 
-router.get('/login', async (ctx, next) => {
+router.get('/login', async(ctx, next) => {
     let body = {};
 
     let username = ctx.query.username;
@@ -46,12 +46,12 @@ router.get('/login', async (ctx, next) => {
     ctx.body = body;
 });
 
-router.get('/signout', async (ctx, next) => {
+router.get('/signout', async(ctx, next) => {
     ctx.session = null;
     ctx.redirect('/index');
 });
 
-router.get('/main', async (ctx, next) => {
+router.get('/main', async(ctx, next) => {
     await checkLogin(ctx);
 
     let billList = [];
@@ -77,7 +77,7 @@ router.get('/main', async (ctx, next) => {
     }
 
     await model.sumBill(groupId).then((result) => {
-        sum = Math.round(Number(result[0]['sum(money)'])* 100) / 100;
+        sum = Math.round(Number(result[0]['sum(money)']) * 100) / 100;
     });
 
     await model.userTotal(groupId).then((result) => {
@@ -94,7 +94,7 @@ router.get('/main', async (ctx, next) => {
     });
 });
 
-router.get('/addBill', async (ctx, next) => {
+router.get('/addBill', async(ctx, next) => {
     await checkLogin(ctx);
     await ctx.render('addBill', {
         title: '添加',
@@ -103,7 +103,7 @@ router.get('/addBill', async (ctx, next) => {
     });
 });
 
-router.get('/addBillAjax', async (ctx, next) => {
+router.get('/addBillAjax', async(ctx, next) => {
     let query = {};
     if (ctx.query.time && ctx.query.type && ctx.query.money) {
         query.time = ctx.query.time;
@@ -123,7 +123,7 @@ router.get('/addBillAjax', async (ctx, next) => {
     });
 });
 
-router.get('/per', async (ctx, next) => {
+router.get('/per', async(ctx, next) => {
     await checkLogin(ctx);
 
     let sum = '';
@@ -172,7 +172,7 @@ router.get('/per', async (ctx, next) => {
     });
 });
 
-router.get('/updateBillStatus', async (ctx, next) => {
+router.get('/updateBillStatus', async(ctx, next) => {
     let power = 0;
     let groupId = ctx.session.groupId;
     await model.findUserDataById(ctx.session.id)
@@ -197,7 +197,7 @@ router.get('/updateBillStatus', async (ctx, next) => {
     });
 });
 
-router.get('/delBillLog', async (ctx, next) => {
+router.get('/delBillLog', async(ctx, next) => {
     if (!ctx.query.id) {
         ctx.body = response.error(response.code.paramsMiss, '参数缺失');
         return;
@@ -214,7 +214,7 @@ router.get('/delBillLog', async (ctx, next) => {
 });
 
 
-router.get('/getBillLogInfo', async (ctx, next) => {
+router.get('/getBillLogInfo', async(ctx, next) => {
     if (!ctx.query.id) {
         ctx.body = response.error(response.code.paramsMiss, '参数缺失');
         return;
@@ -239,7 +239,7 @@ router.get('/getBillLogInfo', async (ctx, next) => {
     });
 });
 
-router.get('/updateBillLogInfo', async (ctx, next) => {
+router.get('/updateBillLogInfo', async(ctx, next) => {
     if (!ctx.query.id) {
         ctx.body = response.error(response.code.paramsMiss, '参数缺失');
         return;
@@ -260,7 +260,7 @@ router.get('/updateBillLogInfo', async (ctx, next) => {
     });
 });
 
-router.get('/face', async (ctx, next) => {
+router.get('/face', async(ctx, next) => {
     await ctx.render('faceDemo', {
         title: 'test',
     });

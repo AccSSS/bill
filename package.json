@@ -4,13 +4,14 @@
     "private": true,
     "scripts": {
         "start": "node bin/www",
-        "dev": "./node_modules/.bin/nodemon bin/www  --env production",
+        "dev": "cross-env NODE_ENV=dev && ./node_modules/.bin/nodemon bin/www",
         "prd": "pm2 start bin/www",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dep-setup": "pm2 deploy ecosystem.config.js production setup",
         "dep-update": "pm2 deploy ecosystem.config.js production"
     },
     "dependencies": {
+        "cross-env": "^5.2.0",
         "debug": "^2.6.3",
         "ejs": "~2.3.3",
         "koa": "^2.2.0",
